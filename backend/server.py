@@ -80,7 +80,13 @@ def verify_pw(pw: str, hashed: str) -> bool:
         return False
 
 def anon_fingerprint(request: Request) -> str:
-    ip = request.client.host if request.client else "0.0.0.0"
+    # Behind a reverse-proxy / k8s ingress, request.client.host is the proxy.
+    # Prefer X-Forwarded-For (first hop) or X-Real-IP for stable identity.
+    xff = request.headers.get("x-forwarded-for", "")
+    if xff:
+        ip = xff.split(",")[0].strip()
+    else:
+        ip = request.headers.get("x-real-ip") or (request.client.host if request.client else "0.0.0.0")
     ua = request.headers.get("user-agent", "")
     return hashlib.sha256(f"{ip}|{ua}".encode()).hexdigest()[:32]
 
