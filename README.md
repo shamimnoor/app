@@ -163,7 +163,7 @@ gh repo create shamimnoor/founder-os --public --source=. --push
    |---|---|
    | `REACT_APP_SUPABASE_URL` | `https://<your-ref>.supabase.co` |
    | `REACT_APP_SUPABASE_ANON_KEY` | `eyJhbGciOi…` (the anon key) |
-   | `REACT_APP_FOUNDER_EMAIL` | `shamimnoorofficial@gmail.com` |
+   | `REACT_APP_FOUNDER_EMAIL` | `abdullahmuhammadshamimreza@gmail.com` |
    | `REACT_APP_N8N_EMBED_URL` | `https://your-n8n.example.com` |
    | `REACT_APP_BACKEND_URL` | *(leave blank)* |
    | `OPENAI_API_KEY` | `sk-proj-…` (server-side only) |
@@ -182,7 +182,7 @@ In Vercel → Project → Settings → **Domains**, add `shamimnoor.dev` (or wha
 
 ## Step 6 — First founder login
 
-1. Open the deployed site → **Register** → sign up with **`shamimnoorofficial@gmail.com`** and any password (min 6 chars).
+1. Open the deployed site → **Register** → sign up with **`abdullahmuhammadshamimreza@gmail.com`** and any password (min 6 chars).
 2. The Supabase `handle_new_user` trigger sees the founder email and assigns `role = 'founder'` automatically.
 3. You're redirected to `/dashboard`. From there:
    - **Settings** — change password, update name + avatar + bio.
