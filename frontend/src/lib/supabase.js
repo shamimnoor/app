@@ -18,7 +18,7 @@ export const supabase = createClient(SUPABASE_URL || "https://invalid.supabase.c
   },
 });
 
-export const FOUNDER_EMAIL = (process.env.REACT_APP_FOUNDER_EMAIL || "abdullahmuhammadshamimreza@gmail.com").toLowerCase();
+export const FOUNDER_EMAIL = (process.env.REACT_APP_FOUNDER_EMAIL || "shamimnoorofficial@gmail.com").toLowerCase();
 export const N8N_EMBED_URL = process.env.REACT_APP_N8N_EMBED_URL || "https://your-n8n.example.com";
 
 export const FOUNDER = {
@@ -27,8 +27,8 @@ export const FOUNDER = {
   avatar:
     "https://customer-assets.emergentagent.com/job_2cbfbaf5-49b3-4e72-aa18-4e9dcb61b843/artifacts/extptqfd_profile-pic.jpg",
   socials: {
-    github: "https://github.com/shamimnoor",
-    linkedin: "https://www.linkedin.com/in/shamimnoor",
+    github: "https://github.com/shamimnoorofficial",
+    linkedin: "https://www.linkedin.com/in/shamimnoorofficial",
     youtube: "https://www.youtube.com/@shamimnoorofficial",
     reddit: "https://www.reddit.com/u/shamimnoor",
     twitter: "https://x.com/shamimnoorfly",

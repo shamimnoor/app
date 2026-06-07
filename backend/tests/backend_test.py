@@ -10,7 +10,7 @@ import requests
 BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "https://shamim-control-hub.preview.emergentagent.com").rstrip("/")
 API = f"{BASE_URL}/api"
 
-FOUNDER_EMAIL = "abdullahmuhammadshamimreza@gmail.com"
+FOUNDER_EMAIL = "shamimnoorofficial@gmail.com"
 FOUNDER_PASSWORD = "ChangeMe!2026"
 
 

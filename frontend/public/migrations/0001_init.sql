@@ -42,7 +42,7 @@ language plpgsql
 security definer set search_path = public
 as $$
 declare
-  founder_email text := 'abdullahmuhammadshamimreza@gmail.com';
+  founder_email text := 'shamimnoorofficial@gmail.com';
   new_role text := 'user';
   new_name text := coalesce(new.raw_user_meta_data->>'name', new.raw_user_meta_data->>'full_name', split_part(new.email, '@', 1));
   new_avatar text := coalesce(new.raw_user_meta_data->>'avatar', new.raw_user_meta_data->>'avatar_url', '');

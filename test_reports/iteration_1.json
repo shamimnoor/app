@@ -29,7 +29,7 @@
     "/app/backend/tests/backend_test.py (new)"
   ],
   "success_rate": {"backend": "100% (39/39)", "frontend": "100% of critical flows"},
-  "test_credentials": "Founder: abdullahmuhammadshamimreza@gmail.com / ChangeMe!2026 (auto-seeded, verified).",
+  "test_credentials": "Founder: shamimnoorofficial@gmail.com / ChangeMe!2026 (auto-seeded, verified).",
   "seed_data_creation": "Tests create TEST_-prefixed leads, comments, bookmarks, community posts and a transient blog/project. No seed mutation.",
   "retest_needed": false,
   "main_agent_can_self_test": true,
