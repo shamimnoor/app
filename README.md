@@ -33,9 +33,10 @@ A world-class AI-powered personal brand platform, agency website, CRM, community
 | Database | **Supabase Postgres** (with Row-Level Security) |
 | Auth | **Supabase Auth** — email/password + Google OAuth |
 | Realtime | Supabase Realtime (messages, comments, community, likes) |
-| AI Copilot | OpenAI GPT-5.2, streamed via a single **Vercel Edge Function** at `/api/copilot` |
+| AI Copilot | OpenAI GPT-5.2, streamed via **Vercel Edge Function** at `/api/copilot` |
+| AI Agents & Workflows | 18 seeded agents + chainable workflows via `/api/agent-run` (Edge) |
 | Automation | **n8n** (cloud or self-hosted) embedded as an iframe in the Founder Dashboard |
-| Hosting | **Vercel** (one project hosts both the React SPA and the Edge Function) |
+| Hosting | **Vercel** (one project hosts the React SPA and both Edge Functions) |
 
 No always-on backend server. Everything runs serverless / managed.
 
@@ -69,7 +70,11 @@ No always-on backend server. Everything runs serverless / managed.
 ├── supabase/
 │   ├── migrations/
 │   │   ├── 0001_init.sql          # Schema + RLS + triggers + helpers
-│   │   └── 0002_seed.sql          # Seed content (idempotent)
+│   │   ├── 0002_seed.sql          # Seed content (idempotent)
+│   │   ├── 0003_integrations.sql  # Integrations hub (n8n / OpenAI / GitHub / …)
+│   │   ├── 0004_ai_layer.sql      # AI Brain: memory, knowledge, RAG, conversations
+│   │   ├── 0005_agents.sql        # 18 specialised agents (CEO, CTO, CMO, …)
+│   │   └── 0006_workflows.sql     # Multi-agent workflow engine + 4 seed chains
 │   └── README.md
 ├── backend/                       # OPTIONAL — FastAPI shim for the Emergent preview only.
 │   ├── server.py                  # Mirrors /api/copilot using OpenAI directly.
@@ -97,15 +102,17 @@ No always-on backend server. Everything runs serverless / managed.
 
 ## Step 1 — Set up Supabase
 
-1. Create a project at https://supabase.com/dashboard. Note the **Project URL** and the **anon** + **service_role** keys (Settings → API).
-2. Open the **SQL Editor**, click **New query**, paste the contents of `supabase/migrations/0001_init.sql`, and click **Run**. This creates every table, RLS policy, trigger and helper function.
-3. Run a second query with the contents of `supabase/migrations/0002_seed.sql`. This inserts the seed services, solutions, industries, projects, case studies, blog posts and resources.
+The fastest path is the in-app wizard:
+
+1. Create a project at https://supabase.com/dashboard. Note the **Project URL** and the **anon** + **service_role** keys (Settings → API). Put `REACT_APP_SUPABASE_URL` and `REACT_APP_SUPABASE_ANON_KEY` in `frontend/.env`.
+2. Visit `/setup` on your deployed site (or local dev). Paste a Supabase **Personal Access Token** (https://supabase.com/dashboard/account/tokens) and click **Initialize**. The wizard runs all six migrations in order: `0001_init` → `0002_seed` → `0003_integrations` → `0004_ai_layer` → `0005_agents` → `0006_workflows`.
+3. If you prefer the manual route: open the Supabase **SQL Editor** and paste each `supabase/migrations/000*.sql` file in numerical order, clicking **Run** after each.
 4. Go to **Authentication → Providers → Email** and **disable "Confirm email"** if you want instant signup (recommended for the first deploy — you can turn it back on later).
 5. Go to **Authentication → URL Configuration**, set:
    - **Site URL** = `https://your-vercel-app.vercel.app` (or your custom domain)
    - **Redirect URLs**: add `https://your-vercel-app.vercel.app/auth/callback` and `https://your-vercel-app.vercel.app/reset-password`. For local dev also add `http://localhost:3000/auth/callback`.
 
-> You can re-run the migrations any time — `0002_seed.sql` is idempotent, and `0001_init.sql` uses `IF NOT EXISTS` / `DROP POLICY IF EXISTS`. Safe.
+> All migrations are idempotent — they use `IF NOT EXISTS`, `DROP POLICY IF EXISTS`, and `ON CONFLICT DO UPDATE`. Safe to re-run.
 
 ---
 

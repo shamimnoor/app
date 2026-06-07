@@ -23,6 +23,9 @@ export default function Setup() {
     { id: "init", label: "Create tables, RLS & triggers", status: "pending" },
     { id: "seed", label: "Insert seed content", status: "pending" },
     { id: "integrations", label: "Create Integrations Hub", status: "pending" },
+    { id: "ai_layer", label: "Install AI Brain (memory + knowledge + RAG)", status: "pending" },
+    { id: "agents", label: "Seed 18 specialised agents", status: "pending" },
+    { id: "workflows", label: "Install multi-agent workflow engine", status: "pending" },
     { id: "verify", label: "Verify install", status: "pending" },
   ]);
   const [errorDetail, setErrorDetail] = useState(null);
@@ -35,11 +38,17 @@ export default function Setup() {
     let cancel = false;
     (async () => {
       try {
-        const { error, count } = await supabase
-          .from("services")
-          .select("*", { count: "exact", head: true });
+        // Treat the install as complete only when BOTH the original schema (services)
+        // AND the new AI layer (ai_agents) exist. This lets existing users re-run
+        // the wizard to install Phase 3–5 migrations without manual SQL.
+        const [s, a] = await Promise.all([
+          supabase.from("services").select("*", { count: "exact", head: true }),
+          supabase.from("ai_agents").select("*", { count: "exact", head: true }),
+        ]);
         if (!cancel) {
-          if (!error && (count || 0) > 0) setAlreadyReady(true);
+          const hasContent = !s.error && (s.count || 0) > 0;
+          const hasAgents = !a.error && (a.count || 0) > 0;
+          if (hasContent && hasAgents) setAlreadyReady(true);
         }
       } catch { /* ignore */ }
       if (!cancel) setChecking(false);
@@ -95,7 +104,25 @@ export default function Setup() {
       await runSql(intgSql, "Integrations Hub");
       setStep("integrations", "done");
 
-      // Step 4 — verify via anon REST
+      // Step 4 — AI Brain layer
+      setStep("ai_layer", "running");
+      const brainSql = await fetch("/migrations/0004_ai_layer.sql").then((r) => r.text());
+      await runSql(brainSql, "AI Brain layer");
+      setStep("ai_layer", "done");
+
+      // Step 5 — Agents
+      setStep("agents", "running");
+      const agentsSql = await fetch("/migrations/0005_agents.sql").then((r) => r.text());
+      await runSql(agentsSql, "Agent Factory");
+      setStep("agents", "done");
+
+      // Step 6 — Workflows
+      setStep("workflows", "running");
+      const wfSql = await fetch("/migrations/0006_workflows.sql").then((r) => r.text());
+      await runSql(wfSql, "Workflow engine");
+      setStep("workflows", "done");
+
+      // Step 7 — verify via anon REST
       setStep("verify", "running");
       const { count, error } = await supabase
         .from("services")

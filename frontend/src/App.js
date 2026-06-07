@@ -41,6 +41,9 @@ import Settings from "@/pages/dashboard/Settings";
 import Automation from "@/pages/dashboard/Automation";
 import DatabaseAdmin from "@/pages/dashboard/Database";
 import Integrations from "@/pages/dashboard/Integrations";
+import AIBrain from "@/pages/dashboard/AIBrain";
+import Agents from "@/pages/dashboard/Agents";
+import Workflows from "@/pages/dashboard/Workflows";
 import Setup from "@/pages/Setup";
 
 function FounderGuard({ children }) {
@@ -98,6 +101,9 @@ export default function App() {
               <Route path="messages" element={<MessagesAdmin />} />
               <Route path="analytics" element={<Analytics />} />
               <Route path="command" element={<CommandCenter />} />
+              <Route path="ai-brain" element={<AIBrain />} />
+              <Route path="agents" element={<Agents />} />
+              <Route path="workflows" element={<Workflows />} />
               <Route path="automation" element={<Automation />} />
               <Route path="integrations" element={<Integrations />} />
               <Route path="database" element={<DatabaseAdmin />} />

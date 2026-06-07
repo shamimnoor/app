@@ -23,7 +23,7 @@ export const N8N_EMBED_URL = process.env.REACT_APP_N8N_EMBED_URL || "https://you
 
 export const FOUNDER = {
   name: "Shamim Noor",
-  email: "shamimnoorofficial@gmail.com",
+  email: "abdullahmuhammadshamimreza@gmail.com",
   avatar:
     "https://customer-assets.emergentagent.com/job_2cbfbaf5-49b3-4e72-aa18-4e9dcb61b843/artifacts/extptqfd_profile-pic.jpg",
   socials: {

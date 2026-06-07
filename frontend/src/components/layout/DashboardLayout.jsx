@@ -17,6 +17,9 @@ import {
   Zap,
   Database,
   Plug,
+  Brain,
+  Bot,
+  Workflow,
   Settings as SettingsIcon,
 } from "lucide-react";
 import { FOUNDER } from "@/lib/api";
@@ -31,9 +34,12 @@ const NAV = [
   { to: "/dashboard/blog", label: "Blog CMS", icon: BookOpen },
   { to: "/dashboard/messages", label: "Messages", icon: MessageSquare },
   { to: "/dashboard/analytics", label: "Analytics", icon: BarChart3 },
+  { to: "/dashboard/command", label: "Command Center", icon: Terminal },
+  { to: "/dashboard/ai-brain", label: "AI Brain", icon: Brain },
+  { to: "/dashboard/agents", label: "Agents", icon: Bot },
+  { to: "/dashboard/workflows", label: "Workflows", icon: Workflow },
   { to: "/dashboard/automation", label: "Automation", icon: Zap },
   { to: "/dashboard/integrations", label: "Integrations", icon: Plug },
-  { to: "/dashboard/command", label: "Command Center", icon: Terminal },
   { to: "/dashboard/settings", label: "Settings", icon: SettingsIcon },
 ];
 

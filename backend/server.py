@@ -137,6 +137,52 @@ async def copilot_alias(req: Request):
     return await copilot(req)
 
 
+@app.post("/api/agent-run")
+async def agent_run(req: Request):
+    """Preview shim mirror of the Vercel Edge function `/api/agent-run`.
+
+    Body: { system, user, model?, temperature?, apiKey? }
+    Returns: { text }
+    """
+    payload: dict[str, Any] = await req.json()
+    system = str(payload.get("system") or "")
+    user = str(payload.get("user") or "")[:12000]
+    if not user:
+        raise HTTPException(status_code=400, detail="user message required")
+    model = str(payload.get("model") or OPENAI_MODEL)
+    temperature = payload.get("temperature")
+    try:
+        temperature = float(temperature) if temperature is not None else 0.7
+    except Exception:
+        temperature = 0.7
+    api_key = str(payload.get("apiKey") or OPENAI_API_KEY or "").strip()
+    if not api_key:
+        raise HTTPException(status_code=500, detail="OPENAI_API_KEY not configured")
+
+    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+    body = {
+        "model": model,
+        "temperature": temperature,
+        "messages": [
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ],
+    }
+    try:
+        async with httpx.AsyncClient(timeout=httpx.Timeout(60.0, read=60.0)) as client:
+            resp = await client.post(
+                "https://api.openai.com/v1/chat/completions", json=body, headers=headers
+            )
+        if resp.status_code != 200:
+            return {"text": "", "error": resp.text[:400]}
+        data = resp.json()
+        text = (((data.get("choices") or [{}])[0]).get("message") or {}).get("content", "")
+        return {"text": text, "usage": data.get("usage")}
+    except Exception as e:
+        logger.exception("agent-run error")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.get("/api/")
 async def root():
     return {"ok": True, "service": "shamim-noor-shim", "note": "Production uses Vercel + Supabase."}
