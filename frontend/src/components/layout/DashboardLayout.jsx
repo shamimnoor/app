@@ -16,6 +16,7 @@ import {
   Plus,
   Zap,
   Database,
+  Plug,
   Settings as SettingsIcon,
 } from "lucide-react";
 import { FOUNDER } from "@/lib/api";
@@ -31,6 +32,7 @@ const NAV = [
   { to: "/dashboard/messages", label: "Messages", icon: MessageSquare },
   { to: "/dashboard/analytics", label: "Analytics", icon: BarChart3 },
   { to: "/dashboard/automation", label: "Automation", icon: Zap },
+  { to: "/dashboard/integrations", label: "Integrations", icon: Plug },
   { to: "/dashboard/command", label: "Command Center", icon: Terminal },
   { to: "/dashboard/settings", label: "Settings", icon: SettingsIcon },
 ];

@@ -22,6 +22,7 @@ export default function Setup() {
   const [steps, setSteps] = useState([
     { id: "init", label: "Create tables, RLS & triggers", status: "pending" },
     { id: "seed", label: "Insert seed content", status: "pending" },
+    { id: "integrations", label: "Create Integrations Hub", status: "pending" },
     { id: "verify", label: "Verify install", status: "pending" },
   ]);
   const [errorDetail, setErrorDetail] = useState(null);
@@ -88,7 +89,13 @@ export default function Setup() {
       await runSql(seedSql, "Seed content");
       setStep("seed", "done");
 
-      // Step 3 — verify via anon REST
+      // Step 3 — integrations hub
+      setStep("integrations", "running");
+      const intgSql = await fetch("/migrations/0003_integrations.sql").then((r) => r.text());
+      await runSql(intgSql, "Integrations Hub");
+      setStep("integrations", "done");
+
+      // Step 4 — verify via anon REST
       setStep("verify", "running");
       const { count, error } = await supabase
         .from("services")
