@@ -39,6 +39,8 @@ import Analytics from "@/pages/dashboard/Analytics";
 import CommandCenter from "@/pages/dashboard/CommandCenter";
 import Settings from "@/pages/dashboard/Settings";
 import Automation from "@/pages/dashboard/Automation";
+import DatabaseAdmin from "@/pages/dashboard/Database";
+import Setup from "@/pages/Setup";
 
 function FounderGuard({ children }) {
   const { user, loading, isFounder } = useAuth() || {};
@@ -76,6 +78,7 @@ export default function App() {
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/messages" element={<Messages />} />
+              <Route path="/setup" element={<Setup />} />
               <Route path="*" element={<NotFound />} />
             </Route>
 
@@ -95,6 +98,7 @@ export default function App() {
               <Route path="analytics" element={<Analytics />} />
               <Route path="command" element={<CommandCenter />} />
               <Route path="automation" element={<Automation />} />
+              <Route path="database" element={<DatabaseAdmin />} />
               <Route path="settings" element={<Settings />} />
             </Route>
           </Routes>

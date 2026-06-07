@@ -15,6 +15,7 @@ import {
   Sparkles,
   Plus,
   Zap,
+  Database,
   Settings as SettingsIcon,
 } from "lucide-react";
 import { FOUNDER } from "@/lib/api";
