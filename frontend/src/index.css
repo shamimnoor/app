@@ -2,114 +2,266 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    margin: 0;
-    font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-        sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-    font-family:
-        source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-}
+/* Premium typography from Fontshare (Cabinet Grotesk) + Google Fonts fallbacks */
+@import url("https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
 
 @layer base {
     :root {
-        --background: 0 0% 100%;
-        --foreground: 0 0% 3.9%;
+        --background: 0 0% 98%;
+        --foreground: 240 10% 3.9%;
         --card: 0 0% 100%;
-        --card-foreground: 0 0% 3.9%;
+        --card-foreground: 240 10% 3.9%;
         --popover: 0 0% 100%;
-        --popover-foreground: 0 0% 3.9%;
-        --primary: 0 0% 9%;
+        --popover-foreground: 240 10% 3.9%;
+        --primary: 240 5.9% 10%;
         --primary-foreground: 0 0% 98%;
-        --secondary: 0 0% 96.1%;
-        --secondary-foreground: 0 0% 9%;
-        --muted: 0 0% 96.1%;
-        --muted-foreground: 0 0% 45.1%;
-        --accent: 0 0% 96.1%;
-        --accent-foreground: 0 0% 9%;
+        --secondary: 240 4.8% 95.9%;
+        --secondary-foreground: 240 5.9% 10%;
+        --muted: 240 4.8% 95.9%;
+        --muted-foreground: 240 3.8% 46.1%;
+        --accent: 38 92% 50%;
+        --accent-foreground: 240 5.9% 10%;
         --destructive: 0 84.2% 60.2%;
         --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 89.8%;
-        --input: 0 0% 89.8%;
-        --ring: 0 0% 3.9%;
-        --chart-1: 12 76% 61%;
-        --chart-2: 173 58% 39%;
-        --chart-3: 197 37% 24%;
-        --chart-4: 43 74% 66%;
-        --chart-5: 27 87% 67%;
-        --radius: 0.5rem;
+        --border: 240 5.9% 90%;
+        --input: 240 5.9% 90%;
+        --ring: 240 5.9% 10%;
+        --radius: 0.625rem;
+        --chart-1: 38 92% 50%;
+        --chart-2: 200 92% 55%;
+        --chart-3: 142 71% 45%;
+        --chart-4: 280 65% 60%;
+        --chart-5: 0 84% 60%;
     }
+
     .dark {
-        --background: 0 0% 3.9%;
+        --background: 240 10% 3.9%;
         --foreground: 0 0% 98%;
-        --card: 0 0% 3.9%;
+        --card: 240 10% 6%;
         --card-foreground: 0 0% 98%;
-        --popover: 0 0% 3.9%;
+        --popover: 240 10% 5%;
         --popover-foreground: 0 0% 98%;
         --primary: 0 0% 98%;
-        --primary-foreground: 0 0% 9%;
-        --secondary: 0 0% 14.9%;
+        --primary-foreground: 240 5.9% 10%;
+        --secondary: 240 3.7% 12%;
         --secondary-foreground: 0 0% 98%;
-        --muted: 0 0% 14.9%;
-        --muted-foreground: 0 0% 63.9%;
-        --accent: 0 0% 14.9%;
-        --accent-foreground: 0 0% 98%;
+        --muted: 240 3.7% 15.9%;
+        --muted-foreground: 240 5% 64.9%;
+        --accent: 38 92% 50%;
+        --accent-foreground: 240 5.9% 10%;
         --destructive: 0 62.8% 30.6%;
         --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 14.9%;
-        --input: 0 0% 14.9%;
+        --border: 240 3.7% 15.9%;
+        --input: 240 3.7% 15.9%;
         --ring: 0 0% 83.1%;
-        --chart-1: 220 70% 50%;
-        --chart-2: 160 60% 45%;
-        --chart-3: 30 80% 55%;
-        --chart-4: 280 65% 60%;
-        --chart-5: 340 75% 55%;
     }
 }
 
-@layer base {
-    * {
-        @apply border-border;
-    }
-    body {
-        @apply bg-background text-foreground;
-    }
+* {
+    border-color: hsl(var(--border));
 }
 
-@layer base {
-    [data-debug-wrapper="true"] {
-        display: contents !important;
-    }
+html {
+    scroll-behavior: smooth;
+}
 
-    [data-debug-wrapper="true"] > * {
-        margin-left: inherit;
-        margin-right: inherit;
-        margin-top: inherit;
-        margin-bottom: inherit;
-        padding-left: inherit;
-        padding-right: inherit;
-        padding-top: inherit;
-        padding-bottom: inherit;
-        column-gap: inherit;
-        row-gap: inherit;
-        gap: inherit;
-        border-left-width: inherit;
-        border-right-width: inherit;
-        border-top-width: inherit;
-        border-bottom-width: inherit;
-        border-left-style: inherit;
-        border-right-style: inherit;
-        border-top-style: inherit;
-        border-bottom-style: inherit;
-        border-left-color: inherit;
-        border-right-color: inherit;
-        border-top-color: inherit;
-        border-bottom-color: inherit;
+body {
+    margin: 0;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family:
+        "Geist",
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "ss01", "cv11";
+}
+
+::selection {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+}
+
+.font-display {
+    font-family:
+        "Cabinet Grotesk",
+        ui-sans-serif,
+        system-ui,
+        sans-serif;
+    letter-spacing: -0.025em;
+}
+
+.font-mono {
+    font-family: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+}
+
+.label-mono {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: hsl(var(--muted-foreground));
+}
+
+/* Glassmorphism */
+.glass {
+    background: hsl(var(--background) / 0.6);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid hsl(var(--border) / 0.5);
+}
+
+.glass-card {
+    background: hsl(var(--card) / 0.7);
+    backdrop-filter: blur(16px);
+    border: 1px solid hsl(var(--border));
+}
+
+/* Grain overlay */
+.grain::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+}
+
+/* Spotlight on hover */
+.spotlight {
+    position: relative;
+    overflow: hidden;
+}
+.spotlight::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    background: radial-gradient(
+        400px circle at var(--mx, 50%) var(--my, 50%),
+        hsl(var(--accent) / 0.18),
+        transparent 40%
+    );
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 300ms;
+}
+.spotlight:hover::after {
+    opacity: 1;
+}
+
+/* Marquee */
+@keyframes marquee {
+    from {
+        transform: translateX(0);
     }
+    to {
+        transform: translateX(-50%);
+    }
+}
+.animate-marquee {
+    animation: marquee 40s linear infinite;
+}
+
+/* Subtle reveal */
+@keyframes rise {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.animate-rise {
+    animation: rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Pulse dot */
+@keyframes pulse-ring {
+    0% {
+        box-shadow: 0 0 0 0 hsl(var(--accent) / 0.6);
+    }
+    100% {
+        box-shadow: 0 0 0 14px hsl(var(--accent) / 0);
+    }
+}
+.pulse-dot {
+    animation: pulse-ring 1.8s infinite;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Dock */
+.dock-item {
+    transition:
+        transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+        background 200ms;
+}
+.dock-item:hover {
+    transform: translateY(-6px) scale(1.08);
+}
+
+/* Hero gradient ring */
+.hero-ring {
+    background: radial-gradient(
+        ellipse at 50% 0%,
+        hsl(var(--accent) / 0.15),
+        transparent 60%
+    );
+}
+
+/* Prose for blog body */
+.prose-noor {
+    color: hsl(var(--foreground));
+    line-height: 1.75;
+    font-size: 1.0625rem;
+}
+.prose-noor p {
+    margin: 1rem 0;
+}
+.prose-noor h1,
+.prose-noor h2,
+.prose-noor h3 {
+    font-family: "Cabinet Grotesk", sans-serif;
+    letter-spacing: -0.02em;
+    margin: 2rem 0 1rem;
+}
+.prose-noor h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+.prose-noor h3 {
+    font-size: 1.35rem;
+    font-weight: 600;
+}
+.prose-noor ul,
+.prose-noor ol {
+    margin: 1rem 0 1rem 1.25rem;
+}
+.prose-noor li {
+    margin: 0.35rem 0;
+}
+.prose-noor code {
+    background: hsl(var(--muted));
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    font-size: 0.9em;
 }

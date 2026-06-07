@@ -1,56 +1,96 @@
-import { useEffect } from "react";
+import React from "react";
 import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
-import { HOME } from "@/constants/testIds";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Toaster } from "sonner";
+import { ThemeProvider } from "@/lib/theme";
+import { AuthProvider, useAuth } from "@/lib/auth";
+import PublicLayout from "@/components/layout/PublicLayout";
+import DashboardLayout from "@/components/layout/DashboardLayout";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+import Home from "@/pages/Home";
+import About from "@/pages/About";
+import Services from "@/pages/Services";
+import Solutions from "@/pages/Solutions";
+import Industries from "@/pages/Industries";
+import Projects from "@/pages/Projects";
+import ProjectDetail from "@/pages/ProjectDetail";
+import CaseStudies from "@/pages/CaseStudies";
+import CaseStudyDetail from "@/pages/CaseStudyDetail";
+import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
+import Resources from "@/pages/Resources";
+import Contact from "@/pages/Contact";
+import Hire from "@/pages/Hire";
+import Community from "@/pages/Community";
+import Login from "@/pages/Login";
+import Register from "@/pages/Register";
+import Messages from "@/pages/Messages";
+import NotFound from "@/pages/NotFound";
 
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
-  };
+import Overview from "@/pages/dashboard/Overview";
+import CRM from "@/pages/dashboard/CRM";
+import ProjectsAdmin from "@/pages/dashboard/ProjectsAdmin";
+import BlogAdmin from "@/pages/dashboard/BlogAdmin";
+import MessagesAdmin from "@/pages/dashboard/MessagesAdmin";
+import Analytics from "@/pages/dashboard/Analytics";
+import CommandCenter from "@/pages/dashboard/CommandCenter";
 
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
-
-  return (
-    <div>
-      <header className="App-header">
-        <a
-          data-testid={HOME.emergentLink}
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
-
-function App() {
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
+function FounderGuard({ children }) {
+  const { user, loading, isFounder } = useAuth() || {};
+  if (loading) return <div className="min-h-screen flex items-center justify-center text-sm text-muted-foreground">Loading…</div>;
+  if (!user) return <Navigate to="/login" replace />;
+  if (!isFounder) return <Navigate to="/" replace />;
+  return children;
 }
 
-export default App;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <ThemeProvider>
+        <AuthProvider>
+          <Routes>
+            <Route element={<PublicLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/solutions" element={<Solutions />} />
+              <Route path="/industries" element={<Industries />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/projects/:slug" element={<ProjectDetail />} />
+              <Route path="/case-studies" element={<CaseStudies />} />
+              <Route path="/case-studies/:slug" element={<CaseStudyDetail />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/hire" element={<Hire />} />
+              <Route path="/community" element={<Community />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/messages" element={<Messages />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+
+            <Route
+              path="/dashboard"
+              element={
+                <FounderGuard>
+                  <DashboardLayout />
+                </FounderGuard>
+              }
+            >
+              <Route index element={<Overview />} />
+              <Route path="crm" element={<CRM />} />
+              <Route path="projects" element={<ProjectsAdmin />} />
+              <Route path="blog" element={<BlogAdmin />} />
+              <Route path="messages" element={<MessagesAdmin />} />
+              <Route path="analytics" element={<Analytics />} />
+              <Route path="command" element={<CommandCenter />} />
+            </Route>
+          </Routes>
+          <Toaster position="top-right" richColors closeButton />
+        </AuthProvider>
+      </ThemeProvider>
+    </BrowserRouter>
+  );
+}
