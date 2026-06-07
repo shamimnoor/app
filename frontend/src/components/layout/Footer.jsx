@@ -85,12 +85,9 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 pt-6 border-t border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="mt-14 pt-6 border-t border-border flex justify-center">
           <div className="text-xs text-muted-foreground font-mono">
-            © {new Date().getFullYear()} Shamim Noor · Built on Emergent
-          </div>
-          <div className="text-xs text-muted-foreground">
-            shamimnoor.dev · {FOUNDER.email}
+            © {new Date().getFullYear()} Shamim Noor. All rights reserved.
           </div>
         </div>
       </div>
