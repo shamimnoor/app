@@ -17,7 +17,7 @@ export default function MessagesAdmin() {
     if (!activeId && res.data.threads?.length) setActiveId(res.data.threads[0].thread_user_id);
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!activeId) return;

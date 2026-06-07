@@ -31,7 +31,7 @@ export default function Agents() {
     } catch (e) { toast.error(e.message); }
     finally { setLoading(false); }
   };
-  useEffect(() => { load(); /* eslint-disable-next-line */ }, []);
+  useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const selected = agents.find((a) => a.id === selectedId);
 

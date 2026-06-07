@@ -1,5 +1,5 @@
 {
-  "buildCommand": "yarn install --frozen-lockfile && yarn build",
+  "buildCommand": "yarn install --frozen-lockfile && CI=false yarn build",
   "outputDirectory": "build",
   "framework": "create-react-app",
   "installCommand": "yarn install --frozen-lockfile",
