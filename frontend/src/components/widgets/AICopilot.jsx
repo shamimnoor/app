@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Bot, Send, X, Sparkles } from "lucide-react";
-import { API_BASE, FOUNDER } from "@/lib/api";
+import { COPILOT_URL, FOUNDER } from "@/lib/api";
 
 export default function AICopilot() {
   const [open, setOpen] = useState(false);
@@ -27,7 +27,7 @@ export default function AICopilot() {
     setStreaming(true);
 
     try {
-      const res = await fetch(`${API_BASE}/copilot/stream`, {
+      const res = await fetch(COPILOT_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text, session_id: sessionId.current }),

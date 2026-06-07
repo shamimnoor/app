@@ -14,6 +14,8 @@ import {
   Home,
   Sparkles,
   Plus,
+  Zap,
+  Settings as SettingsIcon,
 } from "lucide-react";
 import { FOUNDER } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
@@ -27,7 +29,9 @@ const NAV = [
   { to: "/dashboard/blog", label: "Blog CMS", icon: BookOpen },
   { to: "/dashboard/messages", label: "Messages", icon: MessageSquare },
   { to: "/dashboard/analytics", label: "Analytics", icon: BarChart3 },
+  { to: "/dashboard/automation", label: "Automation", icon: Zap },
   { to: "/dashboard/command", label: "Command Center", icon: Terminal },
+  { to: "/dashboard/settings", label: "Settings", icon: SettingsIcon },
 ];
 
 const DOCK = [

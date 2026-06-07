@@ -24,6 +24,9 @@ import Hire from "@/pages/Hire";
 import Community from "@/pages/Community";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
+import ForgotPassword from "@/pages/ForgotPassword";
+import ResetPassword from "@/pages/ResetPassword";
+import AuthCallback from "@/pages/AuthCallback";
 import Messages from "@/pages/Messages";
 import NotFound from "@/pages/NotFound";
 
@@ -34,6 +37,8 @@ import BlogAdmin from "@/pages/dashboard/BlogAdmin";
 import MessagesAdmin from "@/pages/dashboard/MessagesAdmin";
 import Analytics from "@/pages/dashboard/Analytics";
 import CommandCenter from "@/pages/dashboard/CommandCenter";
+import Settings from "@/pages/dashboard/Settings";
+import Automation from "@/pages/dashboard/Automation";
 
 function FounderGuard({ children }) {
   const { user, loading, isFounder } = useAuth() || {};
@@ -67,6 +72,9 @@ export default function App() {
               <Route path="/community" element={<Community />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/messages" element={<Messages />} />
               <Route path="*" element={<NotFound />} />
             </Route>
@@ -86,6 +94,8 @@ export default function App() {
               <Route path="messages" element={<MessagesAdmin />} />
               <Route path="analytics" element={<Analytics />} />
               <Route path="command" element={<CommandCenter />} />
+              <Route path="automation" element={<Automation />} />
+              <Route path="settings" element={<Settings />} />
             </Route>
           </Routes>
           <Toaster position="top-right" richColors closeButton />
