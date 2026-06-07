@@ -80,6 +80,35 @@ as $$
 $$;
 
 -- ============================================================================
+-- ONE-SHOT FOUNDER PROMOTION
+-- If you have already registered with the founder email BEFORE this migration
+-- was applied (or before the email was changed), promote that profile NOW.
+-- The auth trigger above only fires on INSERT, so existing profiles need this.
+-- ============================================================================
+do $$
+declare
+  founder_email text := 'abdullahmuhammadshamimreza@gmail.com';
+  founder_avatar text := 'https://customer-assets.emergentagent.com/job_2cbfbaf5-49b3-4e72-aa18-4e9dcb61b843/artifacts/extptqfd_profile-pic.jpg';
+  auth_user_id uuid;
+begin
+  -- Promote any existing profile row that matches the founder email
+  update public.profiles
+  set role = 'founder',
+      avatar = case when coalesce(avatar, '') = '' then founder_avatar else avatar end
+  where lower(email) = lower(founder_email)
+    and role <> 'founder';
+
+  -- If an auth.users row exists for the founder email but no profile row,
+  -- create the profile row now (covers users created before the trigger was installed).
+  select id into auth_user_id from auth.users where lower(email) = lower(founder_email) limit 1;
+  if auth_user_id is not null then
+    insert into public.profiles (id, email, name, avatar, role)
+    values (auth_user_id, founder_email, split_part(founder_email, '@', 1), founder_avatar, 'founder')
+    on conflict (id) do update set role = 'founder';
+  end if;
+end $$;
+
+-- ============================================================================
 -- 2. CONTENT — services, solutions, industries, resources (public read)
 -- ============================================================================
 create table if not exists public.services (

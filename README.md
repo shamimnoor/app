@@ -4,6 +4,12 @@ A world-class AI-powered personal brand platform, agency website, CRM, community
 
 > Designed for **Shamim Noor** · Business Systems Builder · Automation Architect · Agency Founder · Digital Solutions Consultant.
 
+## 🚀 Want to deploy right now?
+
+**👉 Read [`DEPLOY.md`](./DEPLOY.md) — 5 steps, ~15 minutes, zero terminal / zero SQL paste.**
+
+The rest of this README is the deep reference manual.
+
 ---
 
 ## Table of contents

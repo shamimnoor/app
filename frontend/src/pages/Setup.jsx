@@ -130,8 +130,8 @@ export default function Setup() {
       if (error || !count) throw new Error("Verification failed — services table empty");
       setStep("verify", "done");
 
-      toast.success("Database initialised. Welcome to your Founder OS.");
-      setTimeout(() => navigate("/register"), 1200);
+      toast.success("Database ready. Sign in (or register) — founder role is auto-assigned.");
+      setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
       setSteps((arr) => arr.map((s) => (s.status === "running" ? { ...s, status: "error" } : s)));
       setErrorDetail(err.message || String(err));
@@ -156,13 +156,20 @@ export default function Setup() {
         </div>
         <h1 className="font-display text-3xl font-bold">Already set up.</h1>
         <p className="text-muted-foreground mt-3">
-          Your Supabase database is initialised. No further setup needed.
+          Your Supabase database is fully initialised (schema + content + integrations + AI brain + agents + workflows).
         </p>
-        <div className="mt-6 flex gap-2 justify-center">
-          <Link to="/" className="underline text-sm">Go to homepage</Link>
-          <span className="text-muted-foreground">·</span>
-          <Link to="/login" className="underline text-sm">Sign in</Link>
+        <div className="mt-6 flex flex-col gap-2 items-center">
+          <Link to="/login" className="px-4 py-2 rounded-md bg-foreground text-background text-sm" data-testid="setup-go-login">Sign in</Link>
+          <Link to="/register" className="text-xs text-muted-foreground underline">First time here? Register</Link>
+          <Link to="/" className="text-xs text-muted-foreground underline">Go to homepage</Link>
         </div>
+        <button
+          onClick={() => setAlreadyReady(false)}
+          className="mt-8 text-[11px] text-muted-foreground/70 underline hover:text-foreground"
+          data-testid="setup-rerun"
+        >
+          Need to re-run migrations? Click here (idempotent)
+        </button>
       </div>
     );
   }

@@ -13,6 +13,12 @@
         { "key": "Cache-Control", "value": "no-cache, no-transform" },
         { "key": "X-Accel-Buffering", "value": "no" }
       ]
+    },
+    {
+      "source": "/api/agent-run",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-transform" }
+      ]
     }
   ]
 }
