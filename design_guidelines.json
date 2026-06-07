@@ -1,0 +1,117 @@
+{
+  "theme": "dark_primary",
+  "archetype": "Archetype 4 (Swiss & High-Contrast) x Archetype 5 (Luxury)",
+  "brand_name": "Shamim Noor",
+  "tagline": "Business Systems Builder & Automation Architect",
+  "color_tokens": {
+    "light": {
+      "background": "hsl(0 0% 98%)",
+      "foreground": "hsl(240 10% 3.9%)",
+      "card": "hsl(0 0% 100%)",
+      "card_foreground": "hsl(240 10% 3.9%)",
+      "border": "hsl(240 5.9% 90%)",
+      "primary": "hsl(240 5.9% 10%)",
+      "primary_foreground": "hsl(0 0% 98%)",
+      "accent": "hsl(38 92% 50%)",
+      "accent_foreground": "hsl(240 5.9% 10%)",
+      "muted": "hsl(240 4.8% 95.9%)",
+      "muted_foreground": "hsl(240 3.8% 46.1%)",
+      "glass": "rgba(255, 255, 255, 0.7)"
+    },
+    "dark": {
+      "background": "hsl(240 10% 3.9%)",
+      "foreground": "hsl(0 0% 98%)",
+      "card": "hsl(240 10% 6%)",
+      "card_foreground": "hsl(0 0% 98%)",
+      "border": "hsl(240 3.7% 15.9%)",
+      "primary": "hsl(0 0% 98%)",
+      "primary_foreground": "hsl(240 5.9% 10%)",
+      "accent": "hsl(38 92% 50%)",
+      "accent_foreground": "hsl(0 0% 98%)",
+      "muted": "hsl(240 3.7% 15.9%)",
+      "muted_foreground": "hsl(240 5% 64.9%)",
+      "glass": "rgba(10, 10, 10, 0.6)"
+    }
+  },
+  "typography": {
+    "font_families": {
+      "heading": "Cabinet Grotesk, sans-serif",
+      "body": "Geist, Inter, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    },
+    "scale": {
+      "h1": "text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter",
+      "h2": "text-4xl sm:text-5xl font-bold tracking-tight",
+      "h3": "text-2xl sm:text-3xl font-semibold tracking-tight",
+      "h4": "text-xl sm:text-2xl font-medium",
+      "body": "text-base leading-relaxed text-muted-foreground",
+      "mono_label": "font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground"
+    }
+  },
+  "spacing": {
+    "container": "max-w-7xl mx-auto px-6 sm:px-12",
+    "section": "py-24 sm:py-32",
+    "bento_gap": "gap-4 sm:gap-6 lg:gap-8"
+  },
+  "component_patterns": {
+    "navbar": "Sticky top-0 z-50 w-full border-b border-white/10 bg-black/60 backdrop-blur-xl. Must include Logo, 3-5 key links, and 'Hire Me' CTA.",
+    "command_palette": "⌘K triggered. Glassmorphism overlay (backdrop-blur-2xl bg-black/40). Search input with JetBrains Mono. Keyboard navigable list of quick actions and page routing.",
+    "cards": "1px solid border (border-border). Dark card backgrounds with subtle hover lift (-translate-y-1) and slight glow (shadow-[0_0_15px_rgba(255,255,255,0.05)]). No heavy drop shadows.",
+    "buttons": "Primary: Solid high-contrast text on solid background. Secondary: 1px border with transparent background, hover bg-white/10. Include micro-interactions on click.",
+    "chat_widget": "Floating bottom-right. Circular button with icon. Opens an Apple-styled chat window with glassmorphism header, streaming text interface, and system prompt personality tailored to the founder.",
+    "founder_dashboard_layout": "Sidebar navigation (left aligned), 1px borders, dense data density. Floating bottom dock (MacOS style) for quick actions like 'New Post', 'New Message', 'Command'.",
+    "floating_dock": "Bottom center of dashboard. Fixed position. Glassmorphism background. App-like icon buttons with tooltips on hover."
+  },
+  "animation_specs": {
+    "page_transitions": "Smooth fade-in and subtle slide-up (10px) on initial mount.",
+    "hover_states": "Color transition duration 200ms ease. Translate Y -2px for cards.",
+    "staggered_lists": "Framer motion staggerChildren 0.1s for blog posts, projects, and dashboard items."
+  },
+  "page_layouts": {
+    "public_pages": [
+      { "path": "/", "name": "Home", "layout": "Hero with abstract background, Services bento grid, Featured Projects, Testimonials." },
+      { "path": "/about", "name": "About", "layout": "Editorial layout, large typography, founder story, timeline of systems built." },
+      { "path": "/services", "name": "Services", "layout": "Detailed service breakdown, methodology, pricing/tiers if applicable." },
+      { "path": "/solutions", "name": "Solutions", "layout": "Use-case driven layouts (e.g., Agency Automation, Client Portals)." },
+      { "path": "/industries", "name": "Industries", "layout": "Grid of industries served (Tech, Healthcare, Finance) with specific case study links." },
+      { "path": "/projects", "name": "Projects", "layout": "Masonry or strict grid of portfolio items. Image heavy." },
+      { "path": "/case-studies", "name": "Case Studies", "layout": "In-depth metric-focused pages. 'Problem -> Solution -> Result' format." },
+      { "path": "/blog", "name": "Blog", "layout": "Editorial list view. Tags, read time, view counts, like counts visible." },
+      { "path": "/resources", "name": "Resources", "layout": "Downloadables, Notion templates, guides." },
+      { "path": "/contact", "name": "Contact", "layout": "Multi-step form, Calendly embed option, social links." },
+      { "path": "/hire", "name": "Hire Shamim Noor", "layout": "High-conversion landing page style with strong CTA and social proof." },
+      { "path": "/community", "name": "Community", "layout": "Feed style similar to X/Twitter or minimal forum. Profiles, likes, comments, bookmarks." }
+    ],
+    "dashboard_sections": [
+      { "name": "Overview", "layout": "KPI cards (users, revenue, etc.), main traffic chart." },
+      { "name": "CRM", "layout": "Table view of leads, Kanban board for pipeline." },
+      { "name": "Project Mgmt", "layout": "List of active client projects, milestones, progress bars." },
+      { "name": "Blog CMS", "layout": "Markdown/WYSIWYG editor, draft/publish status." },
+      { "name": "Messages", "layout": "Split pane: Inbox list on left, chat thread on right (WhatsApp style)." },
+      { "name": "Analytics", "layout": "Recharts visualisations for page views, engagement." },
+      { "name": "Command Center", "layout": "Natural language input box that triggers actions across the OS." }
+    ]
+  },
+  "image_assets": {
+    "founder_avatar": "User uploaded photo (Bengali/South Asian young man in teal kurta with blurred green background). If missing during dev, use a placeholder.",
+    "abstract_hero_backgrounds": [
+      "https://images.unsplash.com/photo-1760978631985-590e3b5f4057?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHwzfHxhYnN0cmFjdCUyMGRhcmslMjBsdXh1cnklMjB0ZWNoJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3ODA4MzQwODR8MA&ixlib=rb-4.1.0&q=85",
+      "https://images.pexels.com/photos/3612930/pexels-photo-3612930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+    ],
+    "dashboard_mockups": [
+      "https://images.pexels.com/photos/27141307/pexels-photo-27141307.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "https://images.unsplash.com/photo-1763718528755-4bca23f82ac3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA0MTJ8MHwxfHNlYXJjaHwzfHxtb2Rlcm4lMjBkYXNoYm9hcmQlMjB1aSUyMG1vY2t1cHxlbnwwfHx8fDE3ODA4MzQwODR8MA&ixlib=rb-4.1.0&q=85"
+    ],
+    "business_systems_automation": [
+      "https://images.pexels.com/photos/18471551/pexels-photo-18471551.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "https://images.unsplash.com/photo-1716191299980-a6e8827ba10b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwyfHxidXNpbmVzcyUyMHN5c3RlbXMlMjBhdXRvbWF0aW9uJTIwdGVjaHxlbnwwfHx8fDE3ODA4MzQwODR8MA&ixlib=rb-4.1.0&q=85"
+    ],
+    "architectural_workspaces": [
+      "https://images.pexels.com/photos/923307/pexels-photo-923307.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "https://images.unsplash.com/photo-1449247709967-d4461a6a6103?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwYXJjaGl0ZWN0dXJhbCUyMHdvcmtzcGFjZXxlbnwwfHx8fDE3ODA4MzQwODR8MA&ixlib=rb-4.1.0&q=85"
+    ]
+  },
+  "testing_attributes": {
+    "instruction": "All interactive and key informational elements MUST include a `data-testid` attribute (e.g., `data-testid=\"login-submit-button\"`)."
+  }
+}
