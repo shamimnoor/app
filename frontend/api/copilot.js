@@ -48,7 +48,7 @@ export default async function handler(req) {
     return new Response("Invalid JSON", { status: 400 });
   }
   const message = (payload.message || "").toString().slice(0, 4000);
-  const model = (payload.model || process.env.OPENAI_MODEL || "gpt-5.2").toString();
+  const model = (payload.model || process.env.OPENAI_MODEL || "gpt-4-turbo").toString();
 
   const openaiRes = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",

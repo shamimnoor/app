@@ -1,106 +1,91 @@
-import React, { useEffect, useState } from "react";
-import { api } from "@/lib/api";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "@/lib/auth";
+import { api } from "@/lib/api";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Link } from "react-router-dom";
-import { toast } from "sonner";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-function timeAgo(iso) {
-  try {
-    const d = new Date(iso);
-    const diff = (Date.now() - d.getTime()) / 1000;
-    if (diff < 60) return `${Math.floor(diff)}s ago`;
-    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-    return d.toLocaleDateString();
-  } catch {
-    return "";
-  }
+function Comment({ comment, onDelete }) {
+  const { user, isFounder } = useAuth() || {};
+  return (
+    <div className="flex items-start gap-3">
+      <Avatar className="w-8 h-8 border">
+        <AvatarImage src={comment.profiles.avatar} />
+        <AvatarFallback>{comment.profiles.name[0]}</AvatarFallback>
+      </Avatar>
+      <div className="flex-1">
+        <div className="flex items-center justify-between">
+          <div className="font-bold text-sm">{comment.profiles.name}</div>
+          <div className="text-xs text-muted-foreground">{new Date(comment.created_at).toLocaleDateString()}</div>
+        </div>
+        <p className="text-sm mt-1">{comment.body}</p>
+        {(user?.id === comment.user_id || isFounder) && (
+          <Button variant="ghost" size="sm" className="text-xs text-muted-foreground" onClick={() => onDelete(comment.id)}>
+            Delete
+          </Button>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default function Comments({ contentType, contentId }) {
   const { user } = useAuth() || {};
-  const [items, setItems] = useState([]);
-  const [body, setBody] = useState("");
-  const [busy, setBusy] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
 
-  const load = async () => {
-    try {
-      const res = await api.get("/social/comments", { params: { content_type: contentType, content_id: contentId } });
-      setItems(res.data.items);
-    } catch (e) { /* ignore */ }
+  const loadComments = async () => {
+    const res = await api.get("/comments", { params: { content_type: contentType, content_id: contentId } });
+    setComments(res.data);
   };
 
   useEffect(() => {
-    if (contentId) load();
-    // eslint-disable-next-line
-  }, [contentId, contentType]);
+    loadComments();
+  }, [contentType, contentId]);
 
-  const submit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!body.trim() || !user) return;
-    setBusy(true);
+    if (!newComment.trim()) return;
+
     try {
-      const res = await api.post("/social/comments", { content_type: contentType, content_id: contentId, body });
-      setItems((prev) => [res.data, ...prev]);
-      setBody("");
-    } catch (err) {
-      toast.error("Could not post comment");
-    } finally {
-      setBusy(false);
+      await api.post("/comments", { content_type: contentType, content_id: contentId, body: newComment });
+      setNewComment("");
+      loadComments();
+    } catch (error) {
+      toast.error("Failed to post comment");
+    }
+  };
+
+  const handleDelete = async (commentId) => {
+    try {
+      await api.delete(`/comments/${commentId}`);
+      loadComments();
+    } catch (error) {
+      toast.error("Failed to delete comment");
     }
   };
 
   return (
-    <section id="comments" className="mt-16 border-t border-border pt-10" data-testid="comments-section">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="font-display text-2xl font-bold">Comments</h2>
-        <div className="label-mono">{items.length} replies</div>
-      </div>
-
-      {user ? (
-        <form onSubmit={submit} className="mb-8 flex gap-3">
-          <img src={user.avatar} className="w-9 h-9 rounded-full object-cover flex-shrink-0 mt-1" alt="" />
-          <div className="flex-1">
-            <Textarea
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              placeholder="Share your thoughts…"
-              className="resize-none min-h-[80px]"
-              data-testid="comment-input"
-            />
-            <div className="flex justify-end mt-2">
-              <Button type="submit" disabled={busy || !body.trim()} data-testid="comment-submit-button">
-                {busy ? "Posting…" : "Post comment"}
-              </Button>
-            </div>
-          </div>
-        </form>
-      ) : (
-        <div className="mb-8 p-5 rounded-xl border border-dashed border-border text-sm text-muted-foreground">
-          <Link to="/login" className="text-foreground underline">Sign in</Link> or{" "}
-          <Link to="/register" className="text-foreground underline">create an account</Link> to leave a comment.
-        </div>
-      )}
-
-      <div className="space-y-5" data-testid="comments-list">
-        {items.length === 0 && (
-          <div className="text-sm text-muted-foreground">No comments yet. Be the first to share.</div>
-        )}
-        {items.map((c) => (
-          <div key={c.id} className="flex gap-3" data-testid={`comment-${c.id}`}>
-            <img src={c.user?.avatar} className="w-9 h-9 rounded-full object-cover flex-shrink-0" alt="" />
-            <div className="flex-1">
-              <div className="flex items-center gap-2 text-sm">
-                <span className="font-medium">{c.user?.name}</span>
-                <span className="label-mono">{timeAgo(c.created_at)}</span>
-              </div>
-              <div className="mt-1 text-sm leading-relaxed whitespace-pre-wrap">{c.body}</div>
-            </div>
-          </div>
+    <div id="comments">
+      <h3 className="text-xl font-bold mb-4">Comments ({comments.length})</h3>
+      <div className="space-y-6">
+        {comments.map((comment) => (
+          <Comment key={comment.id} comment={comment} onDelete={handleDelete} />
         ))}
       </div>
-    </section>
+
+      {user && (
+        <form onSubmit={handleSubmit} className="mt-8">
+          <Textarea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Add a comment..."
+            className="mb-2"
+          />
+          <Button type="submit">Post Comment</Button>
+        </form>
+      )}
+    </div>
   );
 }

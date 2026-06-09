@@ -36,43 +36,6 @@ export function AuthProvider({ children }) {
     };
   }, [loadProfile]);
 
-  const login = async (email, password) => {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) throw error;
-    // pull profile right away so caller can decide where to redirect
-    const { data: prof } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", data.user.id)
-      .maybeSingle();
-    setProfile(prof || null);
-    return {
-      id: data.user.id,
-      email: data.user.email,
-      name: prof?.name || data.user.user_metadata?.name || email.split("@")[0],
-      role: prof?.role || "user",
-      avatar: prof?.avatar || "",
-    };
-  };
-
-  const register = async (name, email, password) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { name } },
-    });
-    if (error) throw error;
-    // If email confirmation is enabled, session will be null until the user clicks the email link.
-    const role = email.toLowerCase() === FOUNDER_EMAIL.toLowerCase() ? "founder" : "user";
-    return {
-      id: data.user?.id,
-      email,
-      name,
-      role,
-      needsEmailConfirmation: !data.session,
-    };
-  };
-
   const loginWithGoogle = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -88,11 +51,6 @@ export function AuthProvider({ children }) {
     setProfile(null);
   };
 
-  const changePassword = async (newPassword) => {
-    const { error } = await supabase.auth.updateUser({ password: newPassword });
-    if (error) throw error;
-  };
-
   const updateProfile = async (updates) => {
     if (!session?.user?.id) throw new Error("Not signed in");
     const { data, error } = await supabase
@@ -106,14 +64,6 @@ export function AuthProvider({ children }) {
     return data;
   };
 
-  const requestPasswordReset = async (email) => {
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
-    if (error) throw error;
-  };
-
-  // Convenience derived state
   const user = session?.user
     ? {
         id: session.user.id,
@@ -136,13 +86,9 @@ export function AuthProvider({ children }) {
         profile,
         loading,
         isFounder,
-        login,
-        register,
         loginWithGoogle,
         logout,
-        changePassword,
         updateProfile,
-        requestPasswordReset,
       }}
     >
       {children}

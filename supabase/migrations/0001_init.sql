@@ -42,7 +42,7 @@ language plpgsql
 security definer set search_path = public
 as $$
 declare
-  founder_email text := 'abdullahmuhammadshamimreza@gmail.com';
+  founder_email text := 'shamimnoorofficial@gmail.com';
   new_role text := 'user';
   new_name text := coalesce(new.raw_user_meta_data->>'name', new.raw_user_meta_data->>'full_name', split_part(new.email, '@', 1));
   new_avatar text := coalesce(new.raw_user_meta_data->>'avatar', new.raw_user_meta_data->>'avatar_url', '');
@@ -50,7 +50,7 @@ begin
   if lower(new.email) = lower(founder_email) then
     new_role := 'founder';
     if new_avatar = '' then
-      new_avatar := 'https://customer-assets.emergentagent.com/job_2cbfbaf5-49b3-4e72-aa18-4e9dcb61b843/artifacts/extptqfd_profile-pic.jpg';
+      new_avatar := 'https://avatars.githubusercontent.com/u/5306684?v=4';
     end if;
   end if;
   insert into public.profiles (id, email, name, avatar, role)
@@ -87,8 +87,8 @@ $$;
 -- ============================================================================
 do $$
 declare
-  founder_email text := 'abdullahmuhammadshamimreza@gmail.com';
-  founder_avatar text := 'https://customer-assets.emergentagent.com/job_2cbfbaf5-49b3-4e72-aa18-4e9dcb61b843/artifacts/extptqfd_profile-pic.jpg';
+  founder_email text := 'shamimnoorofficial@gmail.com';
+  founder_avatar text := 'https://avatars.githubusercontent.com/u/5306684?v=4';
   auth_user_id uuid;
 begin
   -- Promote any existing profile row that matches the founder email

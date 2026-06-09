@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { FOUNDER } from "@/lib/api";
 
@@ -19,31 +17,16 @@ function GoogleIcon() {
 }
 
 export default function Login() {
-  const { login, loginWithGoogle } = useAuth() || {};
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { loginWithGoogle } = useAuth() || {};
   const [busy, setBusy] = useState(false);
-  const [googleBusy, setGoogleBusy] = useState(false);
-
-  const submit = async (e) => {
-    e.preventDefault();
-    setBusy(true);
-    try {
-      const u = await login(email, password);
-      toast.success(`Welcome back, ${u.name}`);
-      navigate(u.role === "founder" ? "/dashboard" : "/");
-    } catch (err) {
-      toast.error(err?.message || "Login failed");
-    } finally { setBusy(false); }
-  };
 
   const onGoogle = async () => {
-    setGoogleBusy(true);
-    try { await loginWithGoogle(); }
-    catch (err) { 
-      toast.error(err?.message || "Google sign-in failed"); 
-      setGoogleBusy(false);
+    setBusy(true);
+    try {
+      await loginWithGoogle();
+    } catch (err) {
+      toast.error(err?.message || "Google sign-in failed");
+      setBusy(false);
     }
   };
 
@@ -53,38 +36,14 @@ export default function Login() {
         <img src={FOUNDER.avatar} className="w-10 h-10 rounded-full" alt="" />
         <div>
           <div className="font-display font-bold">Sign in</div>
-          <div className="label-mono">Welcome back to the OS</div>
+          <div className="label-mono">Welcome to the Founder OS</div>
         </div>
       </div>
 
       <div className="rounded-2xl border border-border bg-card p-7 space-y-5">
-        <Button type="button" variant="outline" onClick={onGoogle} className="w-full" data-testid="login-google-button" disabled={googleBusy}>
-          {googleBusy ? "Redirecting..." : <><GoogleIcon /> <span className=\"ml-2\">Continue with Google</span></>}
+        <Button type="button" variant="outline" onClick={onGoogle} className="w-full" data-testid="login-google-button" disabled={busy}>
+          {busy ? "Redirecting..." : <><GoogleIcon /> <span className=\"ml-2\">Continue with Google</span></>}
         </Button>
-
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border" /></div>
-          <div className="relative flex justify-center text-xs"><span className="bg-card px-3 text-muted-foreground label-mono">Or with email</span></div>
-        </div>
-
-        <form onSubmit={submit} className="space-y-5" data-testid="login-form">
-          <div>
-            <Label>Email</Label>
-            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required data-testid="login-email-input" />
-          </div>
-          <div>
-            <Label>Password</Label>
-            <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required data-testid="login-password-input" />
-          </div>
-          <Button type="submit" disabled={busy} className="w-full" size="lg" data-testid="login-submit-button">
-            {busy ? "Signing in…" : "Sign in"}
-          </Button>
-        </form>
-
-        <div className="text-sm text-center text-muted-foreground space-y-2">
-          <div><Link to="/forgot-password" className="underline text-foreground" data-testid="login-forgot-link">Forgot password?</Link></div>
-          <div>New here? <Link to="/register" className="underline text-foreground">Create an account</Link></div>
-        </div>
       </div>
     </div>
   );

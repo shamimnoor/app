@@ -1,26 +1,25 @@
 
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Menu, X, Sun, Moon, LogIn, LogOut, LayoutDashboard } from "lucide-react";
+import { Menu, X, Sun, Moon, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FOUNDER } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { useTheme } from "@/lib/theme";
 
 const PUBLIC_NAV = [
-  { to: "/", label: "Home" },
+  { to: "/about", label: "About" },
   { to: "/services", label: "Services" },
   { to: "/projects", label: "Projects" },
-  { to: "/case-studies", label: "Case Studies" },
   { to: "/blog", label: "Blog" },
-  { to: "/about", label: "About" },
   { to: "/community", label: "Community" },
+  { to: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const { user, isFounder, logout } = useAuth() || {};
+  const { user, isFounder } = useAuth() || {};
   const { theme, toggle } = useTheme();
   const navigate = useNavigate();
 
@@ -60,7 +59,6 @@ export default function Navbar() {
                     : "text-muted-foreground hover:text-foreground"
                 }`
               }
-              end={item.to === "/"}
             >
               {item.label}
             </NavLink>
@@ -78,52 +76,19 @@ export default function Navbar() {
           </button>
 
           {user ? (
-            <>
-              {isFounder && (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => navigate("/dashboard")}
-                  data-testid="navbar-dashboard-button"
-                  className="hidden md:inline-flex"
-                >
-                  <LayoutDashboard className="w-4 h-4 mr-1.5" />
-                  Dashboard
-                </Button>
-              )}
-              <button
-                onClick={() => {
-                  logout();
-                  navigate("/");
-                }}
-                data-testid="navbar-logout-button"
-                className="hidden md:flex p-2 rounded-md hover:bg-secondary text-muted-foreground hover:text-foreground"
-                aria-label="Logout"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            </>
+            <Button variant="ghost" size="icon" onClick={() => navigate(isFounder ? "/admin" : "/dashboard")}>
+              <User className="w-4 h-4" />
+            </Button>
           ) : (
             <Button
               size="sm"
               variant="ghost"
               onClick={() => navigate("/login")}
               data-testid="navbar-login-button"
-              className="hidden md:inline-flex"
             >
-              <LogIn className="w-4 h-4 mr-1.5" />
               Sign in
             </Button>
           )}
-
-          <Button
-            size="sm"
-            onClick={() => navigate("/hire")}
-            data-testid="navbar-hire-button"
-            className="hidden sm:inline-flex"
-          >
-            Hire Shamim
-          </Button>
 
           <button
             className="lg:hidden p-2 rounded-md hover:bg-secondary"
@@ -153,14 +118,8 @@ export default function Navbar() {
                 {item.label}
               </NavLink>
             ))}
-            <NavLink to="/resources" onClick={() => setOpen(false)} className="px-3 py-2.5 text-sm text-muted-foreground">
-              Resources
-            </NavLink>
-            <NavLink to="/contact" onClick={() => setOpen(false)} className="px-3 py-2.5 text-sm text-muted-foreground">
-              Contact
-            </NavLink>
-            <Button onClick={() => { setOpen(false); navigate("/hire"); }} className="mt-2" data-testid="navbar-mobile-hire-button">
-              Hire Shamim
+            <Button onClick={() => { setOpen(false); navigate("/login"); }} className="mt-2">
+              Sign In
             </Button>
           </div>
         </div>

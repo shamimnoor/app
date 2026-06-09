@@ -1,13 +1,10 @@
-
 import React from "react";
 
-export default function Overview() {
+export default function Admin() {
   return (
-    <div className="max-w-7xl mx-auto px-6 sm:px-12 py-16">
-      <h1 className="text-3xl font-bold">Admin Overview</h1>
-      <p className="mt-4 text-muted-foreground">
-        Welcome to the admin panel. You can manage the entire platform from here.
-      </p>
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      <h1 className="font-display text-3xl font-bold">Admin Dashboard</h1>
+      <p className="text-muted-foreground">Welcome, Founder.</p>
     </div>
   );
 }

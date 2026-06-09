@@ -8,7 +8,7 @@ export default function AuthCallback() {
 
   useEffect(() => {
     if (loading) return;
-    if (session) navigate(isFounder ? "/dashboard" : "/", { replace: true });
+    if (session) navigate(isFounder ? "/admin" : "/dashboard", { replace: true });
     else navigate("/login", { replace: true });
   }, [session, loading, isFounder, navigate]);
 
