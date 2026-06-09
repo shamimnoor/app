@@ -87,7 +87,6 @@ export default function AICopilot() {
             </div>
             <div className="flex-1">
               <div className="text-sm font-medium leading-tight">Noor · AI Copilot</div>
-              <div className="text-[11px] text-muted-foreground font-mono">Powered by GPT-5.2</div>
             </div>
             <button onClick={() => setOpen(false)} className="p-1.5 hover:bg-secondary rounded-md" data-testid="copilot-close-button">
               <X className="w-4 h-4" />

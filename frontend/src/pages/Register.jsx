@@ -11,6 +11,7 @@ export default function Register() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [busy, setBusy] = useState(false);
+  const [googleBusy, setGoogleBusy] = useState(false);
   const [sent, setSent] = useState(null);
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
@@ -33,8 +34,12 @@ export default function Register() {
   };
 
   const onGoogle = async () => {
+    setGoogleBusy(true);
     try { await loginWithGoogle(); }
-    catch (err) { toast.error(err?.message || "Google sign-in failed"); }
+    catch (err) { 
+      toast.error(err?.message || "Google sign-in failed"); 
+      setGoogleBusy(false);
+    }
   };
 
   if (sent) {
@@ -55,8 +60,8 @@ export default function Register() {
       <p className="text-sm text-muted-foreground mt-1">Comment, bookmark and chat with Shamim.</p>
 
       <div className="mt-8 rounded-2xl border border-border bg-card p-7 space-y-5">
-        <Button type="button" variant="outline" onClick={onGoogle} className="w-full" data-testid="register-google-button">
-          Continue with Google
+        <Button type="button" variant="outline" onClick={onGoogle} className="w-full" data-testid="register-google-button" disabled={googleBusy}>
+          {googleBusy ? "Redirecting..." : "Continue with Google"}
         </Button>
 
         <div className="relative">

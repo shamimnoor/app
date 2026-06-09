@@ -61,7 +61,7 @@ export function AuthProvider({ children }) {
     });
     if (error) throw error;
     // If email confirmation is enabled, session will be null until the user clicks the email link.
-    const role = email.toLowerCase() === FOUNDER_EMAIL ? "founder" : "user";
+    const role = email.toLowerCase() === FOUNDER_EMAIL.toLowerCase() ? "founder" : "user";
     return {
       id: data.user?.id,
       email,
@@ -124,7 +124,7 @@ export function AuthProvider({ children }) {
     : null;
 
   const isFounder =
-    user?.role === "founder" || (user?.email && user.email.toLowerCase() === FOUNDER_EMAIL);
+    user?.role === "founder" || (user?.email && user.email.toLowerCase() === FOUNDER_EMAIL.toLowerCase());
 
   return (
     <AuthCtx.Provider

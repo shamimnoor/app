@@ -24,6 +24,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const [googleBusy, setGoogleBusy] = useState(false);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -38,8 +39,12 @@ export default function Login() {
   };
 
   const onGoogle = async () => {
+    setGoogleBusy(true);
     try { await loginWithGoogle(); }
-    catch (err) { toast.error(err?.message || "Google sign-in failed"); }
+    catch (err) { 
+      toast.error(err?.message || "Google sign-in failed"); 
+      setGoogleBusy(false);
+    }
   };
 
   return (
@@ -53,8 +58,8 @@ export default function Login() {
       </div>
 
       <div className="rounded-2xl border border-border bg-card p-7 space-y-5">
-        <Button type="button" variant="outline" onClick={onGoogle} className="w-full" data-testid="login-google-button">
-          <GoogleIcon /> <span className="ml-2">Continue with Google</span>
+        <Button type="button" variant="outline" onClick={onGoogle} className="w-full" data-testid="login-google-button" disabled={googleBusy}>
+          {googleBusy ? "Redirecting..." : <><GoogleIcon /> <span className=\"ml-2\">Continue with Google</span></>}
         </Button>
 
         <div className="relative">
