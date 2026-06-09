@@ -1,3 +1,4 @@
+
 import React from "react";
 import "@/App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -6,6 +7,7 @@ import { ThemeProvider } from "@/lib/theme";
 import { AuthProvider, useAuth } from "@/lib/auth";
 import PublicLayout from "@/components/layout/PublicLayout";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import AdminLayout from "@/components/layout/AdminLayout";
 
 import Home from "@/pages/Home";
 import About from "@/pages/About";
@@ -29,6 +31,8 @@ import ResetPassword from "@/pages/ResetPassword";
 import AuthCallback from "@/pages/AuthCallback";
 import Messages from "@/pages/Messages";
 import NotFound from "@/pages/NotFound";
+import Profile from "@/pages/Profile"; 
+import Setup from "@/pages/Setup";
 
 import Overview from "@/pages/dashboard/Overview";
 import CRM from "@/pages/dashboard/CRM";
@@ -44,9 +48,25 @@ import Integrations from "@/pages/dashboard/Integrations";
 import AIBrain from "@/pages/dashboard/AIBrain";
 import Agents from "@/pages/dashboard/Agents";
 import Workflows from "@/pages/dashboard/Workflows";
-import Setup from "@/pages/Setup";
 
-function FounderGuard({ children }) {
+import AdminOverview from "@/pages/admin/Overview";
+import AdminUsers from "@/pages/admin/Users";
+import AdminLeads from "@/pages/admin/Leads";
+import AdminMessages from "@/pages/admin/Messages";
+import AdminBlog from "@/pages/admin/Blog";
+import AdminProjects from "@/pages/admin/Projects";
+import AdminComments from "@/pages/admin/Comments";
+import AdminAnalytics from "@/pages/admin/Analytics";
+import AdminAutomation from "@/pages/admin/Automation";
+
+function UserGuard({ children }) {
+  const { user, loading } = useAuth() || {};
+  if (loading) return <div className="min-h-screen flex items-center justify-center text-sm text-muted-foreground">Loading…</div>;
+  if (!user) return <Navigate to="/login" replace />;
+  return children;
+}
+
+function AdminGuard({ children }) {
   const { user, loading, isFounder } = useAuth() || {};
   if (loading) return <div className="min-h-screen flex items-center justify-center text-sm text-muted-foreground">Loading…</div>;
   if (!user) return <Navigate to="/login" replace />;
@@ -83,15 +103,16 @@ export default function App() {
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/messages" element={<Messages />} />
               <Route path="/setup" element={<Setup />} />
+              <Route path="/profile" element={<UserGuard><Profile /></UserGuard>} />
               <Route path="*" element={<NotFound />} />
             </Route>
 
             <Route
               path="/dashboard"
               element={
-                <FounderGuard>
+                <UserGuard>
                   <DashboardLayout />
-                </FounderGuard>
+                </UserGuard>
               }
             >
               <Route index element={<Overview />} />
@@ -108,6 +129,25 @@ export default function App() {
               <Route path="integrations" element={<Integrations />} />
               <Route path="database" element={<DatabaseAdmin />} />
               <Route path="settings" element={<Settings />} />
+            </Route>
+
+            <Route
+              path="/admin"
+              element={
+                <AdminGuard>
+                  <AdminLayout />
+                </AdminGuard>
+              }
+            >
+              <Route index element={<AdminOverview />} />
+              <Route path="users" element={<AdminUsers />} />
+              <Route path="leads" element={<AdminLeads />} />
+              <Route path="messages" element={<AdminMessages />} />
+              <Route path="blog" element={<AdminBlog />} />
+              <Route path="projects" element={<AdminProjects />} />
+              <Route path="comments" element={<AdminComments />} />
+              <Route path="analytics" element={<AdminAnalytics />} />
+              <Route path="automation" element={<AdminAutomation />} />
             </Route>
           </Routes>
           <Toaster position="top-right" richColors closeButton />

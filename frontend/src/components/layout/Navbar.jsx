@@ -1,6 +1,7 @@
+
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Menu, X, Sun, Moon, Command, LogIn, LogOut, LayoutDashboard } from "lucide-react";
+import { Menu, X, Sun, Moon, LogIn, LogOut, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FOUNDER } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
@@ -16,7 +17,7 @@ const PUBLIC_NAV = [
   { to: "/community", label: "Community" },
 ];
 
-export default function Navbar({ onOpenCommand }) {
+export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { user, isFounder, logout } = useAuth() || {};
@@ -44,7 +45,6 @@ export default function Navbar({ onOpenCommand }) {
             className="w-8 h-8 rounded-full object-cover border border-border"
           />
           <span className="font-display text-base font-bold tracking-tight">Shamim Noor</span>
-          <span className="hidden sm:inline label-mono ml-1">Founder OS</span>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-1">
@@ -68,16 +68,6 @@ export default function Navbar({ onOpenCommand }) {
         </nav>
 
         <div className="flex items-center gap-2">
-          <button
-            onClick={onOpenCommand}
-            data-testid="navbar-command-button"
-            className="hidden md:flex items-center gap-2 px-2.5 py-1.5 text-xs rounded-md border border-border bg-secondary/40 text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Open command palette"
-          >
-            <Command className="w-3.5 h-3.5" />
-            <span className="font-mono">⌘K</span>
-          </button>
-
           <button
             onClick={toggle}
             data-testid="navbar-theme-toggle"

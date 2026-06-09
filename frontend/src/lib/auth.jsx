@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
-import { supabase, FOUNDER_EMAIL } from "./supabase";
+import { supabase } from "./supabase";
 
 const AuthCtx = createContext(null);
+
+const FOUNDER_EMAIL = "abdullahmuhammadshamimreza@gmail.com";
 
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);
@@ -111,7 +113,7 @@ export function AuthProvider({ children }) {
     if (error) throw error;
   };
 
-  // Convenience derived state — keep .name and .avatar so existing components still work
+  // Convenience derived state
   const user = session?.user
     ? {
         id: session.user.id,
